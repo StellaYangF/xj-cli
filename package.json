@@ -7,9 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "xj-cli": "./bin/wwww"
+    "xj-cli": "./bin/www"
   },
-  "keywords": ["cli"],
+  "keywords": [
+    "cli"
+  ],
   "author": "Stella",
   "license": "ISC",
   "dependencies": {
