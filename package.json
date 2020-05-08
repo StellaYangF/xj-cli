@@ -1,19 +1,29 @@
 {
   "name": "xj-cli",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Command Line Interface for personal instant project creation",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "xj-cli": "./bin/wwww"
+    "xj-cli": "./bin/www"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cli"
+  ],
+  "author": "Stella",
   "license": "ISC",
   "dependencies": {
-    "commander": "^5.1.0"
+    "axios": "^0.19.2",
+    "commander": "^5.1.0",
+    "consolidate": "^0.15.1",
+    "download-git-repo": "^3.0.2",
+    "ejs": "^3.1.2",
+    "inquirer": "^7.1.0",
+    "metalsmith": "^2.3.0",
+    "ncp": "^2.0.0",
+    "ora": "^4.0.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -32,5 +42,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StellaYangF/xj-cli"
   }
 }
