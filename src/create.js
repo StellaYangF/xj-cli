@@ -74,7 +74,6 @@ module.exports = async (projectName) => {
   if (!fs.existsSync(path.join(result, 'ask.js'))) {
     await ncp(result, path.resolve(projectName));
   } else {
-    console.log(result);
     await new Promise((resolve, reject) => {
       MetalSmith(__dirname)
         .source(result)
@@ -90,7 +89,7 @@ module.exports = async (projectName) => {
         .use((files, metal, done) => {
           const obj = metal.metadata();
           Reflect.ownKeys(files).forEach(async (file) => {
-            if (file.includes(js) || file.includes('json')) {
+            if (file.includes('js') || file.includes('json')) {
               let content = files[file].contents.toString();
               if (content.includes('<%')) {
                 content = await render(content, obj);
