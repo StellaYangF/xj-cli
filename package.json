@@ -10,7 +10,8 @@
     "xj-cli": "./bin/www"
   },
   "keywords": [
-    "cli"
+    "cli",
+    "scaffold"
   ],
   "author": "Stella",
   "license": "ISC",
