@@ -1,7 +1,7 @@
 {
   "name": "xj-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "Command Line Interface for personal instant project creation",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -42,5 +42,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StellaYangF/xj-cli"
   }
 }
