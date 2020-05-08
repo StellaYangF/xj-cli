@@ -9,8 +9,8 @@
   "bin": {
     "xj-cli": "./bin/wwww"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["cli"],
+  "author": "Stella",
   "license": "ISC",
   "dependencies": {
     "commander": "^5.1.0"

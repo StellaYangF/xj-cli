@@ -34,15 +34,10 @@ Reflect
         .alias(mapActions[action].alias)
         .description(mapActions[action].description)
         .action(() => {
-          switch (action) {
-            case 'create':
-              require(path.resolve(__dirname, action))(process.argv[3]);
-              break;
-            case 'config':
-              require(path.resolve(__dirname, action))(process.argv.slice(3));
-              break;
-            default:
-              console.log(mapActions[action].description);
+          if (action === '*') {
+            console.log(mapActions[action].description);
+          } else {
+            require(path.resolve(__dirname, action))(...process.argv.slice(3));
           }
         });
     },
