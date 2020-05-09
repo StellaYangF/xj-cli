@@ -280,3 +280,35 @@ module.exports = async (projectName) => {
 };
 
 ```
+
+
+### 发包
+```bash
+nrm use npm
+npm login
+npm publish
+```
+> Tip: 登录 npm 账号前，切换到npm 源下
+
+![nrmList](./images/nrmList.jpg)
+
+### 使用
+全局安装 xj-cli 包
+```bash
+nmp i xj-cli -g
+```
+
+下载包
+```bash
+xj-cli create app
+```
+
+![fetchingRepo](./images/fetchingRepo.png)
+
+![selectRepo](./images/selectRepo.png)
+
+![tag](./images/tag.png)
+
+![downloading](./images/downloading.jpg)
+
+到这里核心功能实现了，后续有其他命令可在此基础上扩展即可。
