@@ -312,3 +312,12 @@ xj-cli create app
 ![downloading](./images/downloading.jpg)
 
 到这里核心功能实现了，后续有其他命令可在此基础上扩展即可。
+
+### 补充
+如果发布 `scoped packages` 作用域包到 **NPM** 包管理器上，点击 [创建scoped packages](https://www.npmjs.com/org/create)，通过以下步骤即可把当前的 **user** 转成 **org** 组织（如图）：
+
+![create an org](./images/createOrg.jpg)
+- 输入要新创建的 **org** 名，如：stellastella
+- 勾选 **FREE** 选项
+-（可选）**CONVERT**
+    - 勾选，将当前的个人账号 @stella2 转为 **org**，新创建的 stellastella 为个人账号
