@@ -1,5 +1,5 @@
 {
-  "name": "xj-cli",
+  "name": "@stellastella/xj-cli",
   "version": "1.0.2",
   "description": "Command Line Interface for personal instant project creation",
   "main": "index.js",
@@ -47,5 +47,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StellaYangF/xj-cli"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
