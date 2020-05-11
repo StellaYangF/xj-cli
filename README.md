@@ -321,3 +321,15 @@ xj-cli create app
 - 勾选 **FREE** 选项
 -（可选）**CONVERT**
     - 勾选，将当前的个人账号 @stella2 转为 **org**，新创建的 stellastella 为个人账号
+
+#### 修改配置文件信息
+```json
+{
+  "name": "@stellastella/xj-cli"
+}
+```
+这一步也能通过 NPM 命令行实现：
+```bash
+npm publish --access public
+```
+至此，**scoped packages** 完成发布。
