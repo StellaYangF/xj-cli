@@ -226,7 +226,7 @@ module.exports = async (projectName) => {
   const { repo } = await Inquirer.prompt({
     name: 'repo',
     type: 'list',
-    message: 'please choose a template to create project',
+    message: '请选择要下载的模板',
     choices: repos,
   });
   let tags = await waitFnLoading(fetchTagList, 'fetching tags...')(repo);
@@ -235,7 +235,7 @@ module.exports = async (projectName) => {
   const { tag } = await Inquirer.prompt({
     name: 'tag',
     type: 'list',
-    message: 'please choose a template to create project',
+    message: '请选择要下载的版本',
     choices: tags,
   });
 
