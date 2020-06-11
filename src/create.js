@@ -1,24 +1,31 @@
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 const axios = require('axios');
-const ora = require('ora');
+const ora = require('ora'); // 拉取信息 loading
 const Inquirer = require('inquirer');
 let downloadGitRepo = require('download-git-repo');
-const fs = require('fs');
-const { promisify } = require('util');
-const path = require('path');
 const MetalSmith = require('metalsmith');
 let { render } = require('consolidate').ejs;
-const ncp = require('ncp');
-const { downloadDirectory } = require('./constants');
+const ncp = require('ncp'); // 异步赋值文件及文件目录
+const { DOWNLOAD_DIRECTORY, GIT_REPO_API } = require('./constants');
 
 render = promisify(render);
 downloadGitRepo = promisify(downloadGitRepo);
 
+/**
+ * 拉取远程仓库代码
+ */
 const fetchRepoList = async () => {
-  const { data } = await axios.get('https://api.github.com/orgs/xj-cli/repos');
+  const { data } = await axios.get(GIT_REPO_API);
   return data;
 };
 
-const fetchTagList = async (repo) => {
+/**
+ * 拉取选中项目对应的标签列表
+ * @param {string} repo 获取远程仓库名
+ */
+const fetchTagList = async repo => {
   const { data } = await axios.get(`https://api.github.com/repos/xj-cli/${repo}/tags`);
   return data;
 };
@@ -36,8 +43,8 @@ const download = async (repo, tag) => {
   if (tag) {
     api += `#${tag}`;
   }
-  const dest = `${downloadDirectory}/${repo}`;
-  await downloadGitRepo(api, dest);
+  const dest = `${DOWNLOAD_DIRECTORY}/${repo}`;
+  await downloadGitRepo(api, dest); // 拉取放置在缓存目录下
   return dest;
 };
 
@@ -49,20 +56,23 @@ function checkProjectName(projectName) {
   return true;
 }
 
-module.exports = async (projectName) => {
+module.exports = async projectName => {
   if (!checkProjectName(projectName)) return;
 
-  let repos = await waitFnLoading(fetchRepoList, 'fetching template...')();
+  let repos = await waitFnLoading(fetchRepoList, '正在拉取远程仓库……')();
+  // 映射所有仓库名称
   repos = repos.map((item) => item.name);
+  // 获取用户选择的仓库名
   const { repo } = await Inquirer.prompt({
     name: 'repo',
     type: 'list',
     message: 'please choose a template to create project',
     choices: repos,
   });
-  let tags = await waitFnLoading(fetchTagList, 'fetching tags...')(repo);
-  tags = tags.map((item) => item.name);
 
+  let tags = await waitFnLoading(fetchTagList, '正在拉取仓库标签列表……')(repo);
+  // 映射仓库所有 tag 名
+  tags = tags.map((item) => item.name);
   const { tag } = await Inquirer.prompt({
     name: 'tag',
     type: 'list',
@@ -70,9 +80,9 @@ module.exports = async (projectName) => {
     choices: tags,
   });
 
-  const result = await waitFnLoading(download, 'downloading template')(repo, tag);
+  const result = await waitFnLoading(download, `下载 ${repo} 模板……`)(repo, tag);
   if (!fs.existsSync(path.join(result, 'ask.js'))) {
-    await ncp(result, path.resolve(projectName));
+    await ncp(result, path.resolve(projectName)); // 将已缓存的目录直接拷贝到当前创建的目录下
   } else {
     await new Promise((resolve, reject) => {
       MetalSmith(__dirname)

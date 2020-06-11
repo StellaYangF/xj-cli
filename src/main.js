@@ -1,8 +1,6 @@
-#! /usr/bin/env node
-
 const program = require('commander');
 const path = require('path');
-const { version } = require('./constants');
+const { VERSION } = require('./constants');
 
 const mapActions = {
   create: {
@@ -53,5 +51,5 @@ program.on('--help', () => {
 });
 
 program
-  .version(version)
+  .version(VERSION)
   .parse(process.argv);

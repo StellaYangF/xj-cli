@@ -1,18 +1,59 @@
-# 实现简易的 CLI
-**CLI** 全称 command-line interface 命令行界面，通常不支持鼠标，用户通过键盘输入指令，计算机收到指令，予以执行。
+# 编写定制化 CLI 指南
 
-本文结合 **vue-cli**，**create-react-app** 即脚手架，定制个人项目脚手架，快速创建初始化项目文件。
+**背景说明：**
 
-定制脚手架初衷：
-1. 快速搭建项目初始化文件；
-2. 统一代码规范。
+基于公司内部多个平台、Web、小程序运用中，有多个页面展示及功能重合，为增加项目可维护性，减少复制粘贴的习惯操作，统一代码包依赖管理，特定制符合我司通用模板初始化脚手架工具 **xj-cli**。
 
-> Tip: 文章旨在记录个人开发 cli 的经验。后续文章提及的 xj-cli 为个人开发脚手架示例，可在 [npm](https://www.npmjs.com/) 上 download 之后，就能快速生成项目。
+**该篇指南会从以下部分讲解：**
 
-## xj-cli
-开发之前，需创建一个 Github 组织 organization 账户（如果你有，即可跳过）。先创建一个普通 Github 账户，并升级为 organization 组织账户，后续会将个人初始化后的项目放入该组织账户下，供脚手架逻辑使用。
+- xj-cli 具体做什么
+- 如何使用 xj-cli
+- 如何构建一个脚手架
+
+## xj-cli 具体做什么
+
+我们熟知的 Vue/cli, react-create-app 脚手架都是根据用户选择，从 GitHub 上拉取代码进行项目初始化。同样，我们的代码 xj-cli 也是实现这个简单功能。
+
+不过，xj-cli 拉取的远程组织仓库，内部已初始构建好 2 个模板，如下：
+
+- xj-saas-tempalte
+- xj-miniprogram-tempalte
+
+> 提示：以上两个模板已构建好公有的页面，包括：登录、注册、菜单权限、http 二次请求封装，二者分别用于平台 (Web)，小程序使用。
+
+## 如何使用 xj-cli
+
+### 下载
+脚手架使用之前，需要全局安装，就能在任意目录下初始化你的项目，以此来进行扩展开发。
+
+```bash
+npm install @stella2/xj-cli
+```
+
+> 提示：`@stella2` 是 xj-cli 所在的作用域包，需要添加。
+
+### 命令行
+
+- `xj-cli --version` 或 `xj-cli -V` 查看脚手架当前版本
+- `xj-cli --help` 或 `xj-cli -h` 查看帮助
+- `xj-cli create projectName` 要初始化项目名
+
+> 提示：选择你要开发的模板项目，输入要创建的项目名即可，后面会提示你要下载的项目版本。
+
+## 如何构建一个脚手架
+
+这一环节主要陈述定制化脚手架如何一步步搭建。
+
+### 初始化 package.json 文件
+
+```bash
+npm init
+```
+
+> 提示：这一命令行是在进行项目包管理初始化，按照提示语依次填写信息即可。
 
 ### 下载依赖包
+
 - `axios`: http 库
 - `commander`: 命令行参数解析
 - `consolidate`: 统一模板引擎
@@ -21,15 +62,7 @@
 - `inquirer`: 交互式命令行，实现命令行选择功能
 - `metalsmith`: 极简、插件化的静态站点生成器
 
-**Metalsmith** (译自官网)
-为什么 Metalsmith 是一个插件化的静态站点生成器？
-- 从事源码目录中读取源文件，抽取信息；
-- 可操作抽取的信息；
-- 将操作后的信息写入文件，最后移至目标目录。
-
-### 初始化文件
-
-#### 目录
+### 目录
 ```
 ├── bin
 │   └── www  
@@ -41,7 +74,7 @@
 │   └── constants.js  
 ```
 
-#### 配置项
+### 配置项
 **package.json**
   
 package.json 是整个项目的配置文件，通过命令行 **npm init -y** 快速生成。
@@ -62,14 +95,14 @@ require('../src/main.js');
 
 > Tip: 顶部需添加 **#! /usr/bin/env node**，标识命令行输入 **xj-cli** 时，以 `node` 环境执行此文件
 
-#### 链接全局包
+### 链接全局包
 该步骤是将当前 xj-cli 临时配置到执行环境变量中，实现在任意目录 shell 下都能执行 **xj-cli** 命令。
 
 ```bash
 npm link
 ```
 
-#### 核心代码
+### 核心代码
 **功能**
 - xj-cli --version 查看版本号
 - xj-cli --help 查看帮助
@@ -281,8 +314,8 @@ module.exports = async (projectName) => {
 
 ```
 
-
 ### 发包
+
 ```bash
 nrm use npm
 npm login
@@ -293,12 +326,15 @@ npm publish
 ![nrmList](./images/nrmList.jpg)
 
 ### 使用
+
 全局安装 xj-cli 包
+
 ```bash
 nmp i xj-cli -g
 ```
 
 下载包
+
 ```bash
 xj-cli create app
 ```
@@ -314,6 +350,7 @@ xj-cli create app
 到这里核心功能实现了，后续有其他命令可在此基础上扩展即可。
 
 ### 补充
+
 如果发布 `scoped packages` 作用域包到 **NPM** 包管理器上，点击 [创建scoped packages](https://www.npmjs.com/org/create)，通过以下步骤即可把当前的 **user** 转成 **org** 组织（如图）：
 
 ![create an org](./images/createOrg.jpg)
