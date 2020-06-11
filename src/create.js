@@ -59,7 +59,7 @@ function checkProjectName(projectName) {
 module.exports = async projectName => {
   if (!checkProjectName(projectName)) return;
 
-  let repos = await waitFnLoading(fetchRepoList, '正在拉取远程仓库……')();
+  let repos = await waitFnLoading(fetchRepoList, 'fetching repositories...')();
   // 映射所有仓库名称
   repos = repos.map((item) => item.name);
   // 获取用户选择的仓库名
@@ -70,17 +70,17 @@ module.exports = async projectName => {
     choices: repos,
   });
 
-  let tags = await waitFnLoading(fetchTagList, '正在拉取仓库标签列表……')(repo);
+  let tags = await waitFnLoading(fetchTagList, 'fetching template tags...')(repo);
   // 映射仓库所有 tag 名
   tags = tags.map((item) => item.name);
   const { tag } = await Inquirer.prompt({
     name: 'tag',
     type: 'list',
-    message: 'please choose a template to create project',
+    message: 'please choose a project tag to create',
     choices: tags,
   });
 
-  const result = await waitFnLoading(download, `下载 ${repo} 模板……`)(repo, tag);
+  const result = await waitFnLoading(download, `downloading ${repo} template...`)(repo, tag);
   if (!fs.existsSync(path.join(result, 'ask.js'))) {
     await ncp(result, path.resolve(projectName)); // 将已缓存的目录直接拷贝到当前创建的目录下
   } else {
